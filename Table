@@ -1,0 +1,72 @@
+create table Book(
+    Book_Id char(5) NOT NULL primary key, 
+    Book_Name varchar(30) NOT NULL UNIQUE, 
+    Author_Name varchar(40) NOT NULL, 
+    Publisher varchar(30) NOT NULL, 
+    Price int(4) NOT NULL, 
+    Type varchar(30) NOT NULL, 
+    Quantity int(5) NOT NULL);
+
+
+
+create table Issued(
+    Book_Id char(5) NOT NULL ,
+    IssuedTo varchar(40) NOT NULL,
+    Quantity_Issued int(4) NOT NULL, 
+    Foreign key (Book_Id) References Book(Book_Id));
+
+
+    insert into Book Values 
+    ('C0001', 'Fast Cook', 'LataKapoor', 'EPB', 355, 'Cookery', 5),
+    ('F0001', 'The Tears', 'William Hopkins', 'First Pub', 650, 'Fiction', 20),
+    ('T0001', 'My First C++', 'Brain & Brooke', 'EPB', 350, 'Text', 10),
+    ('T0002','C++ Brain work', 'A.W. Rossaine', 'TDH', 350, 'Text', 15),
+    ('F0002', 'Thunderbolts', 'Anna Roberts', 'First Pub', 750, 'Fiction', 50);
+
+
+
+    insert into Issued values 
+    ('T0001', 'Kamal', 4),
+    ('C0001', 'Arvind', 5),  
+    ('F0001', 'Suresh', 2);
+
+-- 1. To show Book Id, Book Name, Author Name and Price of First Pub Publisher.
+
+SELECT Book_Id, Book_Name, Author_Name, Price FROM Book WHERE Publisher = 'First Pub';
+
+-- 2. To Display the name and the price of the book in ascending order of price.
+
+Select Book_Name, Price from Book ORDER BY Price ASC;
+
+-- 3. Display price of book where price is between 300 to 500.
+select Price from Book where price  between 300 and 500;
+
+-- 4. To Increase the price of all books of EPB publisher by 50.
+
+UPDATE Book SET Price = Price + 50  Where Publisher = 'EPB';
+
+-- 5. To Display Book_Id, Book_Name and Quantity Issued for all the books which has issued.
+
+SELECT A.Book_Id, B.Book_Name, A.Quantity_Issued   FROM Issued AS A   INNER JOIN Book as B   ON A.Book_Id=B.Book_Id;
+
+-- 6. To Display Book Name and Price of Books having "C++" in the Book Name.
+
+Select Book_Name from Book where Book_Name Like '%C++%';
+
+-- 7. Delete the book which has Book_Id T0002.
+
+Delete From Book where Book_Id = 'T0002';
+
+-- 8. Show all the books whose book name starts with character 'T'.
+
+Select Book_Name from Book where Book_Name Like 'T%';
+
+-- GIVE THE OUTPUT OF THE FOLLOWING
+
+-- Select Count(*) From Book;
+    4
+-- Select Max(Price) From Book where Quantity >= 15;
+
+-- Select Book_Name, Author_Name from Book where Publisher = 'First Pub';
+-- Select Count(distinct Publisher) from Book where Price >= 400;
+-- Select Count(distinct(Publisher)) from Book;
